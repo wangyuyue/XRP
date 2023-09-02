@@ -53,52 +53,52 @@ make
 popd
 
 # Build SPDK & specialized BPF-KV
-pushd $SPDK_PATH
-if [ ! -e "LICENSE" ]; then
-    git submodule init
-    git submodule update
-fi
-git submodule update --init
-sudo scripts/pkgdep.sh
-./configure
-make -j8
-sudo make install
-popd
+# pushd $SPDK_PATH
+# if [ ! -e "LICENSE" ]; then
+#     git submodule init
+#     git submodule update
+# fi
+# git submodule update --init
+# sudo scripts/pkgdep.sh
+# ./configure
+# make -j8
+# sudo make install
+# popd
 
-pushd $BPFKV_IO_URING_PATH
-if [ ! -e "CMakeLists.txt" ]; then
-    git submodule init
-    git submodule update
-fi
-sed -i 's|#define DB_PATH .*|#define DB_PATH "'$DEV_NAME'"|' db.h
-cmake .
-make
-popd
+# pushd $BPFKV_IO_URING_PATH
+# if [ ! -e "CMakeLists.txt" ]; then
+#     git submodule init
+#     git submodule update
+# fi
+# sed -i 's|#define DB_PATH .*|#define DB_PATH "'$DEV_NAME'"|' db.h
+# cmake .
+# make
+# popd
 
-pushd $BPFKV_IO_URING_OPEN_LOOP_PATH
-if [ ! -e "CMakeLists.txt" ]; then
-    git submodule init
-    git submodule update
-fi
-sed -i 's|#define DB_PATH .*|#define DB_PATH "'$DEV_NAME'"|' db-bpf.h
-cmake .
-make db-bpf
-# Copy BPF program
-cp $BPFKV_PATH/xrp-bpf/get.o .
-popd
+# pushd $BPFKV_IO_URING_OPEN_LOOP_PATH
+# if [ ! -e "CMakeLists.txt" ]; then
+#     git submodule init
+#     git submodule update
+# fi
+# sed -i 's|#define DB_PATH .*|#define DB_PATH "'$DEV_NAME'"|' db-bpf.h
+# cmake .
+# make db-bpf
+# # Copy BPF program
+# cp $BPFKV_PATH/xrp-bpf/get.o .
+# popd
 
-pushd $BPFKV_SPDK_PATH
-if [ ! -e "Makefile" ]; then
-    git submodule init
-    git submodule update
-fi
-make
-popd
+# pushd $BPFKV_SPDK_PATH
+# if [ ! -e "Makefile" ]; then
+#     git submodule init
+#     git submodule update
+# fi
+# make
+# popd
 
-pushd $BPFKV_SPDK_OPEN_LOOP_PATH
-if [ ! -e "Makefile" ]; then
-    git submodule init
-    git submodule update
-fi
-make
-popd
+# pushd $BPFKV_SPDK_OPEN_LOOP_PATH
+# if [ ! -e "Makefile" ]; then
+#     git submodule init
+#     git submodule update
+# fi
+# make
+# popd
