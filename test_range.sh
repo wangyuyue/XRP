@@ -16,7 +16,11 @@ printf "DEV_NAME=$DEV_NAME\n"
 
 NUM_LAYER=$1
 
-NUM_THREAD=$2
+if [ -n "$2" ]; then
+  RANGE_SIZE=$2
+else
+  RANGE_SIZE=1
+fi
 
 # Check whether BPF-KV is built
 if [ ! -e "$BPFKV_PATH/simplekv" ]; then
@@ -29,17 +33,17 @@ $UTILS_PATH/disable_cpu_freq_scaling.sh
 
 pushd $BPFKV_PATH
 
-printf "Creating a $NUM_LAYER-layer database file...\n"
-sudo ./simplekv $DEV_NAME $NUM_LAYER create
+# printf "Creating a $NUM_LAYER-layer database file...\n"
+# sudo ./simplekv $DEV_NAME $NUM_LAYER create
 
 printf "Running a short point lookup benchmark with regular file operation...\n"
-sudo ./simplekv $DEV_NAME $NUM_LAYER get --requests=100000 --thread=$NUM_THREAD
+sudo ./simplekv $DEV_NAME $NUM_LAYER range --range-size=$RANGE_SIZE
 
 printf "Running a short point lookup benchmark with XRP enabled...\n"
-sudo ./simplekv $DEV_NAME $NUM_LAYER get --requests=100000 --use-xrp --thread=$NUM_THREAD
+sudo ./simplekv $DEV_NAME $NUM_LAYER range --range-size=$RANGE_SIZE --use-xrp
 
 printf "Running a short point lookup benchmark with csd resubmit...\n"
-sudo ./simplekv $DEV_NAME $NUM_LAYER get --requests=100000 --use-csd --thread=$NUM_THREAD
+sudo ./simplekv $DEV_NAME $NUM_LAYER range --range-size=$RANGE_SIZE --use-csd
 
 popd
 printf "Done.\n"
