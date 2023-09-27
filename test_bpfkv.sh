@@ -25,21 +25,23 @@ if [ ! -e "$BPFKV_PATH/simplekv" ]; then
 fi
 
 # Disable CPU frequency scaling
-$UTILS_PATH/disable_cpu_freq_scaling.sh
+#$UTILS_PATH/disable_cpu_freq_scaling.sh
 
 pushd $BPFKV_PATH
 
-printf "Creating a $NUM_LAYER-layer database file...\n"
-sudo ./simplekv $DEV_NAME $NUM_LAYER create
+if [ -n "$3" ]; then
+  printf "Creating a $NUM_LAYER-layer database file...\n"
+  sudo ./simplekv $DEV_NAME $NUM_LAYER create
+fi
 
 printf "Running a short point lookup benchmark with regular file operation...\n"
-sudo ./simplekv $DEV_NAME $NUM_LAYER get --requests=100000 --thread=$NUM_THREAD
+sudo ./simplekv $DEV_NAME $NUM_LAYER get --requests=10000 --thread=$NUM_THREAD
 
 printf "Running a short point lookup benchmark with XRP enabled...\n"
-sudo ./simplekv $DEV_NAME $NUM_LAYER get --requests=100000 --use-xrp --thread=$NUM_THREAD
+sudo ./simplekv $DEV_NAME $NUM_LAYER get --requests=10000 --use-xrp --thread=$NUM_THREAD
 
 printf "Running a short point lookup benchmark with csd resubmit...\n"
-sudo ./simplekv $DEV_NAME $NUM_LAYER get --requests=100000 --use-csd --thread=$NUM_THREAD
+sudo ./simplekv $DEV_NAME $NUM_LAYER get --requests=10000 --use-csd --thread=$NUM_THREAD
 
 popd
 printf "Done.\n"

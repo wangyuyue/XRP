@@ -34,16 +34,16 @@ $UTILS_PATH/disable_cpu_freq_scaling.sh
 pushd $BPFKV_PATH
 
 # printf "Creating a $NUM_LAYER-layer database file...\n"
-# sudo ./simplekv $DEV_NAME $NUM_LAYER create
+sudo ./simplekv $DEV_NAME $NUM_LAYER create
 
 printf "Running a short point lookup benchmark with regular file operation...\n"
-sudo ./simplekv $DEV_NAME $NUM_LAYER range --range-size=$RANGE_SIZE
+sudo ./simplekv $DEV_NAME $NUM_LAYER range --requests 10000 --range-size=$RANGE_SIZE
 
 printf "Running a short point lookup benchmark with XRP enabled...\n"
-sudo ./simplekv $DEV_NAME $NUM_LAYER range --range-size=$RANGE_SIZE --use-xrp
+sudo ./simplekv $DEV_NAME $NUM_LAYER range --requests 10000  --range-size=$RANGE_SIZE --use-xrp
 
 printf "Running a short point lookup benchmark with csd resubmit...\n"
-sudo ./simplekv $DEV_NAME $NUM_LAYER range --range-size=$RANGE_SIZE --use-csd
+sudo ./simplekv $DEV_NAME $NUM_LAYER range --requests 10000  --range-size=$RANGE_SIZE --use-csd
 
 popd
 printf "Done.\n"

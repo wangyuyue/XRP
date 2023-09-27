@@ -6,7 +6,7 @@
 	url = https://github.com/xrp-project/linux.git
 [submodule "BPF-KV"]
 	path = BPF-KV
-	url = https://github.com/xrp-project/BPF-KV.git
+	url = https://github.com/wangyuyue/simpleKV.git
 [submodule "My-YCSB"]
 	path = My-YCSB
 	url = https://github.com/xrp-project/My-YCSB.git
